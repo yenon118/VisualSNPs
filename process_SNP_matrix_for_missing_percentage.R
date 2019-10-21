@@ -4,6 +4,7 @@ rm(list = ls())
 library(dplyr)
 library(tidyr)
 library(tibble)
+library(ggplot2)
 
 library(argparse)
 
@@ -165,5 +166,26 @@ missing_percentage_per_line = result %>%
 write.table(x = missing_percentage_per_line, file = file.path(output_folder_path, "missing_percentage_per_line_total.txt"), sep = "\t", quote = FALSE, row.names = FALSE, na = "")
 
 stopImplicitCluster()
+
+
+
+p <- ggplot(data = missing_percentage_per_chromosome, mapping = aes(x = factor(Missing_percentage), y = Count, fill = factor(CHROM))) +
+        geom_bar(stat="identity", color="black") +
+        labs(title = "Number of Missing Percentage for Positions in Each Chromosome",
+                y = "Count",
+                x = "Missing Percentage \n (for each x in integer range [0,100): >= x and < x+1)") +
+        scale_fill_discrete(name = "Chromosome") +
+        theme_classic() +
+        theme(
+            plot.title = element_text(size = 40, hjust = 0.5, face = "bold"),
+            axis.title = element_text(size = 28),
+            axis.text.y = element_text(size = 24),
+            axis.text.x = element_text(size = 16),
+            legend.title = element_text(size = 24),
+            legend.text = element_text(size = 24)
+        )
+
+ggsave(filename = file.path("missing_percentage_per_chromosome_total.png"), plot = p, path = output_folder_path, width = 32, height = 18, dpi = 800)
+
 
 
