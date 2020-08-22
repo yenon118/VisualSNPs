@@ -169,7 +169,7 @@ stopImplicitCluster()
 
 
 
-p <- ggplot(data = missing_percentage_per_chromosome, mapping = aes(x = factor(Missing_percentage), y = Count, fill = factor(CHROM))) +
+p = ggplot(data = missing_percentage_per_chromosome, mapping = aes(x = factor(Missing_percentage), y = Count, fill = factor(CHROM))) +
         geom_bar(stat="identity", color="black") +
         labs(title = "Number of Missing Percentage for Positions in Each Chromosome",
                 y = "Count",
@@ -188,4 +188,16 @@ p <- ggplot(data = missing_percentage_per_chromosome, mapping = aes(x = factor(M
 ggsave(filename = file.path("missing_percentage_per_chromosome_total.png"), plot = p, path = output_folder_path, width = 32, height = 18, dpi = 800)
 
 
+
+p = ggplot(data = missing_percentage_per_line, mapping = aes(x = LINE, y = Missing_percentage)) +
+        geom_point() +
+        labs(x = "Lines", y = "Missing Percentage", title = "Missing Percentage for Each Line", caption = missing_percentage_per_line$Total[1]) +
+        theme(
+            plot.title = element_text(size = 40, hjust = 0.5, face = "bold"),
+            axis.title = element_text(size = 28),
+            axis.text.y = element_text(size = 24),
+            axis.text.x = element_text(angle = 90, size = 4)
+        )
+
+ggsave(filename = file.path("missing_percentage_per_line_total.png"), plot = p, path = output_folder_path, width = 32, height = 18, dpi = 800)
 
